@@ -1,0 +1,29 @@
+{
+  "name": "pw12",
+  "version": "1.0.0",
+  "description": "Simple server with express",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "lint": "eslint ./",
+    "lintFix": "eslint ./ --fix"
+  },
+  "author": "Sekizo",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^7.10.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-vue": "^6.2.2",
+    "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.10.7",
+    "url-validation": "^2.1.0"
+  },
+  "keywords": []
+}
