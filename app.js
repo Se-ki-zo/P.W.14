@@ -1,9 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const auth = require('./middlewares/auth');
 
 // npm install body-parser
 // http://expressjs.com/en/resources/middleware/body-parser.html
-const bodyParser = require('body-parser');
 
 const {
   PORT = 3000,
@@ -21,22 +22,24 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useFindAndModify: false,
 });
 
-app.use((req, res, next) => { // ???
-  req.user = {
-    _id: '5f79a49cf4e7d0b68326ce91',
-  };
-
-  next();
-});
-
 const cards = require('./routes/cards.js');
 const users = require('./routes/users.js');
+// удалите обработчик создания пользователя — он больше не нужен. ???
 const otherReq = require('./routes/other.js');
+const login = require('./routes/users.js'); // test
+const createUser = require('./routes/users.js'); // test
 
 app.use('', express.static(`${__dirname}/public`));
 
-app.use('/', cards);
-app.use('/', users);
+// app.post('/', login); // test
+// app.post('/', createUser); // test
+app.post('/signin', login); // test
+app.post('/signup', createUser); // test
+
+app.use('/', auth, users);
+
+app.use('/', auth, cards);
+
 app.use('/', otherReq);
 
 app.listen(PORT, () => {
