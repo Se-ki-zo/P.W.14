@@ -37,7 +37,7 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    unique: true, // делает уникальным в базе
+    unique: true,
     required: true,
     validate: {
       validator: (v) => validator.isEmail(v),

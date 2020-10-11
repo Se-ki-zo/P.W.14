@@ -4,7 +4,6 @@ module.exports.createCard = (req, res) => {
   const {
     name,
     link,
-    owner,
     likes,
     createdAt,
   } = req.body;
@@ -12,7 +11,7 @@ module.exports.createCard = (req, res) => {
   Card.create({
     name,
     link,
-    owner,
+    owner: req.user._id,
     likes,
     createdAt,
   })
@@ -22,7 +21,7 @@ module.exports.createCard = (req, res) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         res.status(400).send({
-          message: err.message, // 'Переданы некорректные данные'
+          message: 'Переданы некорректные данные',
         });
       } else {
         res.status(500).send({
@@ -43,13 +42,19 @@ module.exports.returnCards = (req, res) => {
 };
 
 module.exports.deleteCard = (req, res) => {
-  // console.log(req.body);
-  // console.log(req.headers);
-
-  Card.findByIdAndRemove(req.params.id).orFail(new Error('NotValidId'))
-    .then((card) => res.send({
-      data: card,
-    }))
+  Card.findById(req.params.id).orFail(new Error('NotValidId')) // test
+    .then((card) => {
+      if (req.user._id !== card.owner) {
+        res.status(400).send({
+          message: 'Нет прав на удаление',
+        });
+      } else {
+        Card.findByIdAndRemove(req.params.id).orFail(new Error('NotValidId'))
+          .then(() => res.send({
+            data: card,
+          }));
+      }
+    })
     .catch((err) => {
       if (err.message === 'NotValidId') {
         res.status(404).send({

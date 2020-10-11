@@ -1,10 +1,9 @@
 const jwt = require('jsonwebtoken');
 
-module.exports = (req, res, next) => {
-  const token = req.headers.cookie.replace('jwt=', '');
+module.exports = (req, res, next) => { // test
   let payload;
-
   try {
+    const token = req.headers.cookie.replace('jwt=', '');
     payload = jwt.verify(token, 'some-secret-key');
   } catch (err) {
     return res
@@ -14,7 +13,7 @@ module.exports = (req, res, next) => {
       });
   }
 
-  req.user = payload; // записываем пейлоуд в объект запроса
+  req.user = payload;
 
-  return next(); // пропускаем запрос дальше
+  return next();
 };

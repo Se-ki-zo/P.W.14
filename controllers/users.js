@@ -22,9 +22,9 @@ module.exports.createUser = (req, res) => {
       about,
       avatar,
       email,
-      password: hash, // записываем хеш в базу
+      password: hash,
     }))
-    .then((user) => res.send({
+    .then((user) => res.send({ // test
       _id: user._id,
       name: user.name,
       about: user.about,
@@ -58,8 +58,7 @@ module.exports.returnUsers = (req, res) => {
 module.exports.findUser = (req, res) => {
   User.findById(req.params.id).orFail(new Error('NotValidId'))
     .then((user) => res.send({
-      id: user.id,
-      name: user.name,
+      data: user,
     }))
     .catch((err) => {
       if (err.message === 'NotValidId') {
