@@ -1,7 +1,6 @@
 const Card = require('../models/card.js');
 
 module.exports.createCard = (req, res) => {
-  console.log(req.user._id); // ???
   const {
     name,
     link,
@@ -23,7 +22,7 @@ module.exports.createCard = (req, res) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         res.status(400).send({
-          message: 'Переданы некорректные данные',
+          message: err.message, // 'Переданы некорректные данные'
         });
       } else {
         res.status(500).send({
@@ -44,6 +43,9 @@ module.exports.returnCards = (req, res) => {
 };
 
 module.exports.deleteCard = (req, res) => {
+  // console.log(req.body);
+  // console.log(req.headers);
+
   Card.findByIdAndRemove(req.params.id).orFail(new Error('NotValidId'))
     .then((card) => res.send({
       data: card,

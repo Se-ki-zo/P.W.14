@@ -25,10 +25,14 @@ module.exports.createUser = (req, res) => {
       password: hash, // записываем хеш в базу
     }))
     .then((user) => res.send({
-      data: user,
+      _id: user._id,
+      name: user.name,
+      about: user.about,
+      avatar: user.avatar,
+      email: user.email,
+      password: req.body.password,
     }))
     .catch((err) => {
-      console.log(err); // test
       if (err.name === 'ValidationError') {
         res.status(400).send({
           message: 'Переданы некорректные данные',
@@ -83,9 +87,14 @@ module.exports.login = (req, res) => { // test
       }, 'some-secret-key', {
         expiresIn: '7d',
       });
-      res.send({
-        token,
-      });
+      res
+        .cookie('jwt', token, {
+          maxAge: 3600000 * 24 * 7,
+          httpOnly: true,
+        }).send({
+          token,
+        })
+        .end();
     })
     .catch((err) => {
       res
