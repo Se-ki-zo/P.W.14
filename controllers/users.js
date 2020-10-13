@@ -16,33 +16,47 @@ module.exports.createUser = (req, res) => {
     email,
   } = req.body;
 
-  bcrypt.hash(req.body.password, 10)
-    .then((hash) => User.create({
-      name,
-      about,
-      avatar,
-      email,
-      password: hash,
-    }))
-    .then((user) => res.send({ // test
-      _id: user._id,
-      name: user.name,
-      about: user.about,
-      avatar: user.avatar,
-      email: user.email,
-      password: req.body.password,
-    }))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        res.status(400).send({
-          message: 'Переданы некорректные данные',
-        });
-      } else {
-        res.status(500).send({
-          message: 'Ошибка сервера',
-        });
-      }
+  if (!req.body.password) {
+    res.status(400).send({
+      message: 'Переданы некорректные данные',
     });
+    return;
+  }
+
+  req.body.password = req.body.password.trim();
+
+  if (req.body.password.length >= 8) {
+    bcrypt.hash(req.body.password, 10)
+      .then((hash) => User.create({
+        name,
+        about,
+        avatar,
+        email,
+        password: hash,
+      }))
+      .then((user) => res.send({ // test
+        _id: user._id,
+        name: user.name,
+        about: user.about,
+        avatar: user.avatar,
+        email: user.email,
+      }))
+      .catch((err) => {
+        if (err.code === 11000) {
+          res.status(409).send({
+            message: 'Пользователь с таким Email уже существует',
+          });
+        } else {
+          res.status(400).send({
+            message: 'Переданы некорректные данные',
+          });
+        }
+      });
+  } else {
+    res.status(400).send({
+      message: 'Переданы некорректные данные',
+    });
+  }
 };
 
 module.exports.returnUsers = (req, res) => {
@@ -61,7 +75,11 @@ module.exports.findUser = (req, res) => {
       data: user,
     }))
     .catch((err) => {
-      if (err.message === 'NotValidId') {
+      if (err.name === 'CastError') {
+        res.status(400).send({
+          message: 'Переданы некорректные данные',
+        });
+      } else if (err.message === 'NotValidId') {
         res.status(404).send({
           message: 'Нет ресурсов по заданному Id',
         });
@@ -90,6 +108,7 @@ module.exports.login = (req, res) => { // test
         .cookie('jwt', token, {
           maxAge: 3600000 * 24 * 7,
           httpOnly: true,
+          sameSite: true,
         }).send({
           token,
         })

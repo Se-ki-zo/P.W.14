@@ -45,7 +45,7 @@ module.exports.deleteCard = (req, res) => {
   Card.findById(req.params.id).orFail(new Error('NotValidId')) // test
     .then((card) => {
       if (req.user._id !== card.owner) {
-        res.status(400).send({
+        res.status(403).send({
           message: 'Нет прав на удаление',
         });
       } else {
