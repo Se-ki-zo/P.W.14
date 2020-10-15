@@ -7,4 +7,10 @@ router.get('/*', (req, res) => { // bad url
   }));
 });
 
+router.post('/*', (req, res) => { // bad url
+  res.status(404).send(JSON.stringify({
+    message: 'Запрашиваемый ресурс не найден',
+  }));
+});
+
 module.exports = router;

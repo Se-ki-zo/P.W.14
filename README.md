@@ -4,9 +4,10 @@ it's a simple project with some abilities to make GET/POST/DELETE req to server.
 ## Tech
 In this project, we used node.js and express.js, to create this server and try to upgrade skills.
 
-## ver 0.0.2
+## ver 0.0.3
 We added some new functional in project:
-1. added ability to create & login as user.
+1. Repaired ability to delete card.
+2. Repaired bad status req.
 
 ## How to use?
 1. first of all u need to open a [site](https://github.com/Se-ki-zo/P.W.14/tree/dev) in ur browser and download all files to work with it.
