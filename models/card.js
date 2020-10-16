@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 
 const isUrlValid = require('url-validation');
 
-const cardSchema = new mongoose.Schema({ // test
+const cardSchema = new mongoose.Schema({
   name: {
     type: String,
     minlength: 2,
@@ -16,7 +16,7 @@ const cardSchema = new mongoose.Schema({ // test
     type: String,
     required: true,
     validate(url) {
-      return isUrlValid(url); // test
+      return isUrlValid(url);
     },
   },
   owner: {

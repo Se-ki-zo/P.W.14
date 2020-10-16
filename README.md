@@ -1,15 +1,16 @@
 # Sekizo's express server
-it's a simple project with some abilities to make GET/POST/DELETE req to server, like 'http://localhost:3000/cards', 'http://localhost:3000/users/id' & etc.
+it's a simple project with some abilities to make GET/POST/DELETE req to server.
 
 ## Tech
 In this project, we used node.js and express.js, to create this server and try to upgrade skills.
 
-## ver 0.0.2
+## ver 0.0.3
 We added some new functional in project:
-1. repaired bad err req problem
+1. Repaired ability to delete card.
+2. Repaired bad status req.
 
 ## How to use?
-1. first of all u need to open a [site](https://github.com/Se-ki-zo/P.W.13/tree/dev) in ur browser and download all files to work with it.
+1. first of all u need to open a [site](https://github.com/Se-ki-zo/P.W.14/tree/dev) in ur browser and download all files to work with it.
 2. then try to find errors in this project ([glhf](https://ivan.bessarabov.ru/blog/gl-hf)).
 3. If suddenly u found EVEN ONE or more error(s) (but we know, that u can't do that withot black magic, P.S "You're not allowed to use magic [outside](https://harrypotter.fandom.com/f/p/3258895044706340242) Hogwarts"), then tell me in my [pull request](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests).
 
